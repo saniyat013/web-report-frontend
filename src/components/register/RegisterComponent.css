@@ -1,0 +1,17 @@
+.app-register {
+    margin-top: 20px;
+    margin-bottom: 80px;
+}
+
+.registration-form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.form-label {
+    margin: 10px 0 2px !important;
+}
+
+.submit-button {
+    width: 100%;
+}
