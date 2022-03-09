@@ -3,7 +3,6 @@ import { Container, Button, Form, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import { config as BASE } from "../../config/Config";
 import * as END_POINT from "../../config/Endpoint";
-import { APP_CONSTANTS } from "../../config/Constants";
 
 import "./RegisterComponent.css";
 
@@ -63,7 +62,6 @@ const RegisterComponent = () => {
             userPasswordConfirm === undefined
         ) {
             toast.error(strings.fill_all_fields);
-            console.log();
         } else {
             await verifyUniqueEmail();
 

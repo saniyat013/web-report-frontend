@@ -26,5 +26,10 @@
     "mobile_digit_limit": "11 digits",
     "password": "Password",
     "confirm_password": "Confirm Password",
-    "submit": "Submit"
+    "submit": "Submit",
+    "login": "Login",
+    "invalid_credentials": "Invalid email or password. Please try again",
+    "login_fail": "Login failed. Please try again",
+    "logout_fail": "Logout failed. Please try again",
+    "copyright_text": "2022 Hezbut Tawheed. All rights reserved."
 }
