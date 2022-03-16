@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Container, Button, Form, Row, Col } from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Button, Form } from "react-bootstrap";
 import axios from "axios";
 import { config as BASE } from "../../config/Config";
 import * as END_POINT from "../../config/Endpoint";
@@ -58,18 +58,33 @@ const LoginComponent = () => {
                         response.data.user.division
                     );
                     localStorage.setItem(
+                        "userDivisionName",
+                        response.data.userData.division
+                    );
+                    localStorage.setItem(
                         "userDistrict",
                         response.data.user.district
                     );
+                    localStorage.setItem(
+                        "userDistrictName",
+                        response.data.userData.district
+                    );
                     localStorage.setItem("userUnit", response.data.user.unit);
+                    localStorage.setItem(
+                        "userUnitName",
+                        response.data.userData.unit
+                    );
                     localStorage.setItem("userToken", response.data.token);
 
-                    console.log(localStorage.getItem("userID"));
-                    console.log(localStorage.getItem("userEmail"));
-                    console.log(localStorage.getItem("userDivision"));
-                    console.log(localStorage.getItem("userDistrict"));
-                    console.log(localStorage.getItem("userUnit"));
-                    console.log(localStorage.getItem("userToken"));
+                    // console.log(localStorage.getItem("userID"));
+                    // console.log(localStorage.getItem("userEmail"));
+                    // console.log(localStorage.getItem("userDivision"));
+                    // console.log(localStorage.getItem("userDistrict"));
+                    // console.log(localStorage.getItem("userUnit"));
+                    // console.log(localStorage.getItem("userToken"));
+                    // console.log(localStorage.getItem("userDivisionName"));
+                    // console.log(localStorage.getItem("userDistrictName"));
+                    // console.log(localStorage.getItem("userUnitName"));
                 })
                 .catch((err) => {
                     if (err.response.status === 401) {

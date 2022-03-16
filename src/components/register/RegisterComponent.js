@@ -11,6 +11,8 @@ import { reloadPage } from "../../common/CommonFunctions";
 import LocalizedStrings from "react-localization";
 import { Lang } from "../../i18n/Lang";
 
+import { useNavigate } from "react-router-dom";
+
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
@@ -47,6 +49,8 @@ const RegisterComponent = () => {
     useEffect(() => {
         getAllDivision();
     }, []);
+
+    const navigateTo = useNavigate();
 
     const registerUser = async (e) => {
         e.preventDefault();
@@ -94,6 +98,9 @@ const RegisterComponent = () => {
                             .then((response) => {
                                 toast.success(strings.registration_success);
                                 setTimeout(() => {
+                                    navigateTo("/login", {
+                                        replace: true,
+                                    });
                                     reloadPage();
                                 }, 3000);
                             })

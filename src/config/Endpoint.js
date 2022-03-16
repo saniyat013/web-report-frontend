@@ -5,3 +5,6 @@ export const VERIFY_UNIQUE_USER = "/search-user";
 export const REGISTER_USER = "/register";
 export const LOGIN_USER = "/login";
 export const LOGOUT_USER = "/logout";
+export const GET_MEMBERS_BY_UNIT = "/members/";
+export const UPDATE_MEMBERS_BY_UNIT = "/members/";
+export const SAVE_REPORT = "/reports";

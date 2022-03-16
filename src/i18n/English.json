@@ -1,6 +1,6 @@
 {
     "title": "Web Balag App",
-    "fill_all_fields": "Please fill up all the fields",
+    "fill_all_fields": "Please fill up all the required fields",
     "invalid_mobile": "Mobile No. is invalid",
     "password_match": "Passwords matched",
     "password_not_match": "Passwords did not match",
@@ -31,5 +31,24 @@
     "invalid_credentials": "Invalid email or password. Please try again",
     "login_fail": "Login failed. Please try again",
     "logout_fail": "Logout failed. Please try again",
-    "copyright_text": "2022 Hezbut Tawheed. All rights reserved."
+    "copyright_text": "2022 Hezbut Tawheed. All rights reserved.",
+    "report": "Add Balag Report",
+    "date": "Date",
+    "unit_total_member": "Total members in the Unit",
+    "worked_today": "Worked on today's post",
+    "worked_id_today": "Worked from IDs (Total)",
+    "comment": "Comment",
+    "member_loading_fail": "Member loading failed. Please reload",
+    "member_update_success": "Members updated successfully",
+    "member_update_fail": "Members update failed. Please try again",
+    "invalid_number": "Please enter a valid number",
+    "current_members": "Current Members of the unit",
+    "update_members": "Update Members",
+    "enter_updated_members": "Enter updated number of members",
+    "update": "Update",
+    "report_saved": "Report saved successfully",
+    "report_save_fail": "Report saving failed. Please try again",
+    "report_nav": "Report",
+    "logout": "Logout",
+    "update_members_input": "Updated Members"
 }

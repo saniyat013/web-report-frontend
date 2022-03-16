@@ -101,11 +101,14 @@ const AppNavbar = () => {
     return (
         <Navbar collapseOnSelect expand="lg" variant="light" sticky="top">
             <Container>
-                <Navbar.Brand href="/">{strings.title}</Navbar.Brand>
+                <Navbar.Brand href="/home">{strings.title}</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        {/* <Nav.Link href="#features">Features</Nav.Link> */}
+                        <Nav.Link href="/report">{strings.report}</Nav.Link>
+                        <Nav.Link href="/update-member">
+                            {strings.update_members}
+                        </Nav.Link>
                         {/* <NavDropdown
                             title="Dropdown"
                             id="collasible-nav-dropdown"
@@ -144,7 +147,7 @@ const AppNavbar = () => {
                                 display: displayLogin ? "block" : "none",
                             }}
                         >
-                            Login
+                            {strings.login}
                         </Nav.Link>
                         <Nav.Link
                             onClick={logout}
@@ -152,7 +155,7 @@ const AppNavbar = () => {
                                 display: displayLogout ? "block" : "none",
                             }}
                         >
-                            Logout
+                            {strings.logout}
                         </Nav.Link>
                         <Nav.Link
                             href="/register"
@@ -160,7 +163,7 @@ const AppNavbar = () => {
                                 display: displayRegister ? "block" : "none",
                             }}
                         >
-                            Register
+                            {strings.register}
                         </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
