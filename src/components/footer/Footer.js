@@ -15,7 +15,10 @@ const Footer = () => {
     return (
         <footer className="app-footer">
             <div className="container text-center my-2">
-                <p className="m-0">&copy; {strings.copyright_text}</p>
+                <p className="m-0">
+                    &copy;{" "}
+                    {new Date().getFullYear() + " " + strings.copyright_text}
+                </p>
             </div>
         </footer>
     );

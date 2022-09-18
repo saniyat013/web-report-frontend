@@ -304,7 +304,7 @@ const RegisterComponent = () => {
 
                         <Form.Label>{strings.password}</Form.Label>
                         <Form.Control
-                            type="text"
+                            type="password"
                             placeholder={strings.password}
                             id="password"
                             onChange={(e) => {
@@ -314,7 +314,7 @@ const RegisterComponent = () => {
 
                         <Form.Label>{strings.confirm_password}</Form.Label>
                         <Form.Control
-                            type="text"
+                            type="password"
                             placeholder={strings.confirm_password}
                             id="password-confirm"
                             onChange={(e) => {

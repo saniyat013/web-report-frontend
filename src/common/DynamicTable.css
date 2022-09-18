@@ -1,0 +1,56 @@
+table {
+    margin-top: 10px;
+    text-align: center;
+    border-collapse: separate !important;
+    border-spacing: 0;
+    border: 0;
+}
+
+.table > :not(:first-child) {
+    border-top: unset !important;
+}
+
+table th:first-child {
+    border-radius: 10px 0 0 0;
+}
+
+table th:last-child {
+    border-radius: 0 10px 0 0;
+}
+
+thead tr {
+    background-color: #6c7ae0;
+}
+
+thead tr th {
+    padding: 10px !important;
+    font-weight: normal;
+    font-size: 18px;
+    color: #fff;
+    padding: 0.3rem !important;
+}
+
+tbody {
+    background-color: #fafafa;
+}
+
+td {
+    border-left: 1px solid #dee2e6 !important;
+    padding: 0.1rem !important;
+}
+
+td:last-child {
+    border-right: 1px solid #dee2e6 !important;
+}
+
+tbody tr:hover {
+    background-color: #ececff;
+}
+
+.verify-btn {
+    padding: 0 10px !important;
+}
+
+.detailed-report-rowspan {
+    vertical-align: middle;
+}

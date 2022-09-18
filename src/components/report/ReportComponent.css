@@ -1,9 +1,65 @@
-.app-report {
-    margin-top: 20px;
-    margin-bottom: 80px;
+.report-nav {
+    margin-top: 10px;
+    border: 1px solid #ececff;
+    border-radius: 10px;
 }
 
-.report-form {
-    max-width: 500px;
+.report-nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.report-nav li {
+    float: left;
+}
+
+.report-nav li {
+    display: block;
+    color: #000;
+    text-align: center;
+    padding: 8px 16px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.report-nav li:hover {
+    background-color: #ececff;
+}
+
+.report-nav li:first-child:hover {
+    background-color: unset;
+}
+
+.report-nav li:first-child:hover {
+    background-color: #ececff;
+    border-radius: 10px 0 0 10px;
+}
+
+.today-report-container {
+    margin-bottom: 60px;
+}
+
+.today-report-tables {
+    max-width: 600px;
     margin: 0 auto;
+}
+
+.today-report-tables thead tr th {
+    font-size: 16px;
+}
+
+@media screen and (max-width: 375px) {
+    .today-report-tables,
+    .today-report-tables thead tr th {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .today-report-tables,
+    .today-report-tables thead tr th {
+        font-size: 12px;
+    }
 }

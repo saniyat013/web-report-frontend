@@ -1,26 +1,32 @@
-import React, { useEffect, useState } from "react";
-import { Container, Button, Form, Row, Col } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Container, Button } from "react-bootstrap";
+import "./ReportComponent.css";
+
 import axios from "axios";
 import { config as BASE } from "../../config/Config";
 import * as END_POINT from "../../config/Endpoint";
 
-import "./ReportComponent.css";
+import DynamicTableReportShort from "../../common/DynamicTableReportShort";
+import DynamicTableReportDetailed from "../../common/DynamicTableReportDetailed";
+import DynamicTableReportNotSent from "../../common/DynamicTableReportNotSent";
 
-import { reloadPage, verifyNumber } from "../../common/CommonFunctions";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
 
 import LocalizedStrings from "react-localization";
 import { Lang } from "../../i18n/Lang";
+
+import ReactToPrint from "react-to-print";
+import printIcon from "../../assets/images/printer.png";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
 let strings = new LocalizedStrings(Lang);
-
-var currentDate;
-var workedOnTodaysPost;
-var workedIds;
-var comment;
+var todayShortReport;
+var todayDetailedReport;
+var todayNotSentReport;
 
 const ReportComponent = () => {
     strings.setLanguage(
@@ -29,198 +35,178 @@ const ReportComponent = () => {
             : localStorage.getItem("appLanguage")
     );
 
-    const [currentMembers, setCurrentMembers] = useState("");
+    const componentRef = React.useRef(null);
+    const reactToPrintContent = React.useCallback(() => {
+        return componentRef.current;
+    }, [componentRef.current]);
 
-    useEffect(() => {
-        // console.log(localStorage.getItem("userID"));
-        // console.log(localStorage.getItem("userEmail"));
-        // console.log(localStorage.getItem("userDivision"));
-        // console.log(localStorage.getItem("userDistrict"));
-        // console.log(localStorage.getItem("userUnit"));
-        // console.log(localStorage.getItem("userToken"));
-        // console.log(localStorage.getItem("userDivisionName"));
-        // console.log(localStorage.getItem("userDistrictName"));
-        // console.log(localStorage.getItem("userUnitName"));
-        getCurrentMembers();
+    const reactToPrintTrigger = React.useCallback(() => {
+        return (
+            <Button
+                variant="outline-primary"
+                className="print-btn"
+                style={{ backgroundImage: `url(${printIcon})` }}
+            />
+        );
     }, []);
 
-    const getCurrentMembers = () => {
+    const [isLoading1, setLoading1] = useState(true);
+    const [isLoading2, setLoading2] = useState(true);
+    const [isLoading3, setLoading3] = useState(true);
+
+    useEffect(() => {
+        getTodayShortReport();
+        getTodayDetailedReport();
+        getReportNotSentToday();
+    }, []);
+
+    var todaysDate = new Date();
+    var todaysDateString = `${todaysDate.getDate()}/${
+        todaysDate.getMonth() + 1
+    }/${todaysDate.getFullYear()}`;
+
+    const getTodayShortReport = () => {
         let config = {
             method: "get",
-            url:
-                BASE.BASE_API_URL +
-                END_POINT.GET_MEMBERS_BY_UNIT +
-                localStorage.getItem("userUnit"),
+            url: BASE.BASE_API_URL + END_POINT.GET_TODAY_SHORT,
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            },
+            params: {
+                dateToday: todaysDate,
             },
         };
 
         axios(config)
             .then((response) => {
-                setCurrentMembers(response.data.members);
+                todayShortReport = response.data;
+                setLoading1(false);
             })
             .catch((err) => {
-                toast.error(strings.member_loading_fail);
+                toast.error(strings.data_loading_failed);
             });
     };
 
-    const saveReport = (e) => {
-        e.preventDefault();
+    const getTodayDetailedReport = () => {
+        let config = {
+            method: "get",
+            url: BASE.BASE_API_URL + END_POINT.GET_TODAY_DETAILED,
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            },
+            params: {
+                dateToday: todaysDate,
+            },
+        };
 
-        console.log(currentDate);
-        if (
-            currentDate === undefined ||
-            workedOnTodaysPost === undefined ||
-            workedIds === undefined
-        ) {
-            toast.error(strings.fill_all_fields);
-        } else if (
-            verifyNumber(workedOnTodaysPost) ||
-            verifyNumber(workedIds)
-        ) {
-            toast.error(strings.invalid_number);
-        } else {
-            let config = {
-                method: "post",
-                url: BASE.BASE_API_URL + END_POINT.SAVE_REPORT,
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem(
-                        "userToken"
-                    )}`,
-                },
-                data: {
-                    division_id: localStorage.getItem("userDivision"),
-                    district_id: localStorage.getItem("userDistrict"),
-                    unit_id: localStorage.getItem("userUnit"),
-                    created_at: currentDate,
-                    total_work: workedOnTodaysPost,
-                    total_id: workedIds,
-                    comment: comment,
-                },
-            };
+        axios(config)
+            .then((response) => {
+                todayDetailedReport = response.data;
+                setLoading2(false);
+            })
+            .catch((err) => {
+                toast.error(strings.data_loading_failed);
+            });
+    };
 
-            axios(config)
-                .then((response) => {
-                    toast.success(strings.report_saved);
-                    setTimeout(() => {
-                        reloadPage();
-                    }, 3000);
-                })
-                .catch((err) => {
-                    toast.error(strings.report_save_fail);
-                });
-        }
+    const getReportNotSentToday = () => {
+        let config = {
+            method: "get",
+            url: BASE.BASE_API_URL + END_POINT.REPORT_NOT_SENT_TODAY,
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            },
+            params: {
+                dateToday: todaysDate,
+            },
+        };
+
+        axios(config)
+            .then((response) => {
+                todayNotSentReport = response.data;
+                setLoading3(false);
+            })
+            .catch((err) => {
+                toast.error(strings.data_loading_failed);
+            });
     };
 
     return (
-        <Container className="app-report">
-            <div className="report-form">
-                <h3 className="text-center">{strings.report}</h3>
-                <Form onSubmit={saveReport}>
-                    <Form.Group className="mb-3">
-                        <Row>
-                            <Col sm={6}>
-                                <Form.Label>{strings.division}</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    value={localStorage.getItem(
-                                        "userDivisionName"
-                                    )}
-                                    disabled={true}
-                                />
-                            </Col>
-                            <Col sm={6}>
-                                <Form.Label>{strings.district}</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    value={localStorage.getItem(
-                                        "userDistrictName"
-                                    )}
-                                    disabled={true}
-                                />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col sm={6}>
-                                <Form.Label>{strings.unit}</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    value={localStorage.getItem("userUnitName")}
-                                    disabled={true}
-                                />
-                            </Col>
-                            <Col sm={6}>
-                                <Form.Label>{strings.date}*</Form.Label>
-                                <Form.Control
-                                    type="date"
-                                    onChange={(e) => {
-                                        currentDate = e.target.value;
-                                    }}
-                                />
-                            </Col>
-                        </Row>
+        <Container className="today-report-container">
+            <ReactToPrint
+                // pageStyle="@page { size: A4; }"
+                content={reactToPrintContent}
+                documentTitle="AwesomeFileName"
+                // onAfterPrint={handleAfterPrint}
+                // onBeforeGetContent={handleOnBeforeGetContent}
+                // onBeforePrint={handleBeforePrint}
+                removeAfterPrint
+                trigger={reactToPrintTrigger}
+            />
+            <Tabs>
+                <TabList>
+                    <Tab>{strings.todays_short_report}</Tab>
+                    <Tab>{strings.todays_report}</Tab>
+                    <Tab>{strings.todays_report_not_sent}</Tab>
+                </TabList>
 
-                        <Row>
-                            <Col sm={6}>
-                                <Form.Label>
-                                    {strings.unit_total_member}
-                                </Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    disabled={true}
-                                    value={currentMembers}
-                                />
-                            </Col>
-                            <Col sm={6}>
-                                <Form.Label>{strings.worked_today}*</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder={strings.worked_today}
-                                    onChange={(e) => {
-                                        workedOnTodaysPost = e.target.value;
-                                    }}
-                                />
-                            </Col>
-                        </Row>
-
-                        <Row>
-                            <Col sm={6}>
-                                <Form.Label>
-                                    {strings.worked_id_today}*
-                                </Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder={strings.worked_id_today}
-                                    onChange={(e) => {
-                                        workedIds = e.target.value;
-                                    }}
-                                />
-                            </Col>
-                            <Col sm={6}>
-                                <Form.Label>{strings.comment}</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder={strings.comment}
-                                    onChange={(e) => {
-                                        comment = e.target.value;
-                                    }}
-                                />
-                            </Col>
-                        </Row>
-                    </Form.Group>
-
-                    <Button
-                        variant="primary"
-                        type="submit"
-                        className="submit-button"
-                    >
-                        {strings.submit}
-                    </Button>
-                </Form>
-            </div>
+                <Container className="mt-2" ref={componentRef}>
+                    <TabPanel>
+                        <h5 className="text-center">
+                            {strings.balag_report} - {todaysDateString}
+                        </h5>
+                        {isLoading1 ? null : (
+                            <div className="text-center">
+                                <div className="today-report-tables">
+                                    <DynamicTableReportShort
+                                        tableData={todayShortReport}
+                                    />
+                                </div>
+                            </div>
+                        )}
+                    </TabPanel>
+                    <TabPanel>
+                        <h5 className="text-center">
+                            {strings.balag_report} - {todaysDateString}
+                        </h5>
+                        {isLoading2 ? null : (
+                            <div className="text-center">
+                                <div className="today-report-tables">
+                                    {todayDetailedReport.map((element) => {
+                                        if (element.districts.length !== 0) {
+                                            return (
+                                                <DynamicTableReportDetailed
+                                                    tableData={element}
+                                                />
+                                            );
+                                        } else {
+                                            return null;
+                                        }
+                                    })}
+                                </div>
+                            </div>
+                        )}
+                    </TabPanel>
+                    <TabPanel>
+                        <h5 className="text-center">
+                            {strings.todays_report_not_sent} -{" "}
+                            {todaysDateString}
+                        </h5>
+                        {isLoading3 ? null : (
+                            <div className="text-center">
+                                <div className="today-report-tables">
+                                    <DynamicTableReportNotSent
+                                        tableData={todayNotSentReport}
+                                    />
+                                </div>
+                            </div>
+                        )}
+                    </TabPanel>
+                </Container>
+            </Tabs>
         </Container>
     );
 };

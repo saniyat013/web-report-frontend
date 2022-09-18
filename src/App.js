@@ -1,22 +1,19 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Register from "./screens/Register";
 import Home from "./screens/Home";
+import Dashboard from "./screens/Dashboard";
+import Report from "./screens/Report";
 import Navbar from "./components/navbar/Navbar";
 import Footer from "./components/footer/Footer";
 import Login from "./screens/Login";
-import Report from "./screens/Report";
+import AddReport from "./screens/AddReport";
 import UpdateMember from "./screens/UpdateMember";
 
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useState } from "react";
 
 import PublicRouting from "./routing/PublicRouting";
 import PrivateRouting from "./routing/PrivateRouting";
-
-import LocalizedStrings from "react-localization";
-import { Lang } from "../src/i18n/Lang";
-let strings = new LocalizedStrings(Lang);
 
 function App() {
     if (localStorage.getItem("appLanguage") === null) {
@@ -30,7 +27,9 @@ function App() {
                 <Routes>
                     <Route path="/*" element={<PrivateRouting />}>
                         <Route path="home" element={<Home />} />
+                        <Route path="dashboard" element={<Dashboard />} />
                         <Route path="report" element={<Report />} />
+                        <Route path="add-report" element={<AddReport />} />
                         <Route
                             path="update-member"
                             element={<UpdateMember />}

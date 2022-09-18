@@ -1,0 +1,31 @@
+.print-btn-div {
+    text-align: right;
+    padding: 5px 50px 0 0;
+}
+
+.print-btn {
+    float: right;
+    margin: 10px 50px 0 0;
+    border: none !important;
+    background-size: 25px;
+    height: 25px;
+    width: 25px;
+}
+
+.print-btn:hover,
+.print-btn:active {
+    background-color: unset !important;
+}
+
+.print-btn:focus {
+    box-shadow: none !important;
+}
+
+.print-btn::after {
+    content: "Print";
+    padding-left: 18px;
+    font-size: 18px;
+    position: relative;
+    top: -50%;
+    color: #000;
+}

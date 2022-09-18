@@ -17,3 +17,20 @@
     vertical-align: text-bottom;
     margin-right: 6px;
 }
+
+a.nav-dropdown-item.dropdown-item {
+    color: #000 !important;
+    text-align: center;
+}
+
+.dropdown-menu {
+    padding: 0 !important;
+}
+
+a.nav-dropdown-item.dropdown-item {
+    padding: 5px 0;
+}
+
+a.nav-dropdown-item.dropdown-item:hover {
+    background-color: #1976d215;
+}

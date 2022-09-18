@@ -19,16 +19,16 @@ let strings = new LocalizedStrings(Lang);
 toast.configure();
 
 const AppNavbar = () => {
-    const [applicationLanguage, setApplicationLanguage] = useState("");
-    const [displayLogin, setDisplayLogin] = useState();
-    const [displayLogout, setDisplayLogout] = useState();
-    const [displayRegister, setDisplayRegister] = useState();
-
     strings.setLanguage(
         localStorage.getItem("appLanguage") === null
             ? ""
             : localStorage.getItem("appLanguage")
     );
+
+    const [applicationLanguage, setApplicationLanguage] = useState("");
+    const [displayLogin, setDisplayLogin] = useState();
+    const [displayLogout, setDisplayLogout] = useState();
+    const [displayRegister, setDisplayRegister] = useState();
 
     useEffect(() => {
         if (
@@ -55,7 +55,6 @@ const AppNavbar = () => {
     }, []);
 
     const changeLang = () => {
-        console.log(localStorage.getItem("appLanguage"));
         if (localStorage.getItem("appLanguage") === "en") {
             localStorage.setItem("appLanguage", "bn");
             setApplicationLanguage("English");
@@ -68,11 +67,16 @@ const AppNavbar = () => {
 
     const logout = () => {
         // console.log(localStorage.getItem("userID"));
+        // console.log(localStorage.getItem("userRole"));
+        // console.log(localStorage.getItem("userName"));
         // console.log(localStorage.getItem("userEmail"));
         // console.log(localStorage.getItem("userDivision"));
         // console.log(localStorage.getItem("userDistrict"));
         // console.log(localStorage.getItem("userUnit"));
         // console.log(localStorage.getItem("userToken"));
+        // console.log(localStorage.getItem("userDivisionName"));
+        // console.log(localStorage.getItem("userDistrictName"));
+        // console.log(localStorage.getItem("userUnitName"));
         let config = {
             method: "post",
             url: BASE.BASE_API_URL + END_POINT.LOGOUT_USER,
@@ -85,11 +89,16 @@ const AppNavbar = () => {
         axios(config)
             .then((response) => {
                 localStorage.removeItem("userID");
+                localStorage.removeItem("userRole");
+                localStorage.removeItem("userName");
                 localStorage.removeItem("userEmail");
                 localStorage.removeItem("userDivision");
                 localStorage.removeItem("userDistrict");
                 localStorage.removeItem("userUnit");
                 localStorage.removeItem("userToken");
+                localStorage.removeItem("userDivisionName");
+                localStorage.removeItem("userDistrictName");
+                localStorage.removeItem("userUnitName");
 
                 reloadPage();
             })
@@ -105,21 +114,20 @@ const AppNavbar = () => {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="/report">{strings.report}</Nav.Link>
-                        <Nav.Link href="/update-member">
-                            {strings.update_members}
-                        </Nav.Link>
-                        {/* <NavDropdown
-                            title="Dropdown"
-                            id="collasible-nav-dropdown"
-                        >
-                            <NavDropdown.Item href="#action/3.1">
-                                Action
-                            </NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">
-                                Another action
-                            </NavDropdown.Item>                      
-                        </NavDropdown> */}
+                        {displayLogout ? (
+                            <React.Fragment>
+                                <Nav.Link href="/home">{strings.home}</Nav.Link>
+                                <Nav.Link href="/report">
+                                    {strings.report_nav}
+                                </Nav.Link>
+                                <Nav.Link href="/add-report">
+                                    {strings.add_report}
+                                </Nav.Link>
+                                <Nav.Link href="/update-member">
+                                    {strings.update_members}
+                                </Nav.Link>
+                            </React.Fragment>
+                        ) : null}
                     </Nav>
                     <Nav>
                         <Nav.Link onClick={changeLang}>
@@ -141,6 +149,29 @@ const AppNavbar = () => {
                             {applicationLanguage}
                         </Nav.Link>
 
+                        <NavDropdown
+                            title={localStorage.getItem("userName")}
+                            id="collasible-nav-dropdown"
+                            style={{
+                                display: displayLogout ? "block" : "none",
+                            }}
+                        >
+                            {localStorage.getItem("userRole") === "1" ? (
+                                <NavDropdown.Item
+                                    className="nav-dropdown-item"
+                                    href="/dashboard"
+                                >
+                                    {strings.dashboard}
+                                </NavDropdown.Item>
+                            ) : null}
+                            <NavDropdown.Item
+                                className="nav-dropdown-item"
+                                onClick={logout}
+                            >
+                                {strings.logout}
+                            </NavDropdown.Item>
+                        </NavDropdown>
+
                         <Nav.Link
                             href="/login"
                             style={{
@@ -149,14 +180,7 @@ const AppNavbar = () => {
                         >
                             {strings.login}
                         </Nav.Link>
-                        <Nav.Link
-                            onClick={logout}
-                            style={{
-                                display: displayLogout ? "block" : "none",
-                            }}
-                        >
-                            {strings.logout}
-                        </Nav.Link>
+
                         <Nav.Link
                             href="/register"
                             style={{

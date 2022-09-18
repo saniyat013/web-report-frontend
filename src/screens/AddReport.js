@@ -1,9 +1,8 @@
 import React from "react";
 import AddReportComponent from "../components/report/AddReportComponent";
-import ReportComponent from "../components/report/ReportComponent";
 
 const Report = () => {
-    return <ReportComponent />;
+    return <AddReportComponent />;
 };
 
 export default Report;

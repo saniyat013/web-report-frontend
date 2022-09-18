@@ -50,41 +50,58 @@ const LoginComponent = () => {
 
             axios(config)
                 .then((response) => {
-                    setLoggedIn("loggedIn");
-                    localStorage.setItem("userID", response.data.user.id);
-                    localStorage.setItem("userEmail", response.data.user.email);
-                    localStorage.setItem(
-                        "userDivision",
-                        response.data.user.division
-                    );
-                    localStorage.setItem(
-                        "userDivisionName",
-                        response.data.userData.division
-                    );
-                    localStorage.setItem(
-                        "userDistrict",
-                        response.data.user.district
-                    );
-                    localStorage.setItem(
-                        "userDistrictName",
-                        response.data.userData.district
-                    );
-                    localStorage.setItem("userUnit", response.data.user.unit);
-                    localStorage.setItem(
-                        "userUnitName",
-                        response.data.userData.unit
-                    );
-                    localStorage.setItem("userToken", response.data.token);
+                    if (response.data.user.verified === 0) {
+                        toast.error(strings.user_not_verified);
+                    } else {
+                        setLoggedIn("loggedIn");
+                        localStorage.setItem("userID", response.data.user.id);
+                        localStorage.setItem("userRole", response.data.user.role);
+                        localStorage.setItem(
+                            "userName",
+                            response.data.user.name
+                        );
+                        localStorage.setItem(
+                            "userEmail",
+                            response.data.user.email
+                        );
+                        localStorage.setItem(
+                            "userDivision",
+                            response.data.user.division
+                        );
+                        localStorage.setItem(
+                            "userDivisionName",
+                            response.data.userData.division
+                        );
+                        localStorage.setItem(
+                            "userDistrict",
+                            response.data.user.district
+                        );
+                        localStorage.setItem(
+                            "userDistrictName",
+                            response.data.userData.district
+                        );
+                        localStorage.setItem(
+                            "userUnit",
+                            response.data.user.unit
+                        );
+                        localStorage.setItem(
+                            "userUnitName",
+                            response.data.userData.unit
+                        );
+                        localStorage.setItem("userToken", response.data.token);
 
-                    // console.log(localStorage.getItem("userID"));
-                    // console.log(localStorage.getItem("userEmail"));
-                    // console.log(localStorage.getItem("userDivision"));
-                    // console.log(localStorage.getItem("userDistrict"));
-                    // console.log(localStorage.getItem("userUnit"));
-                    // console.log(localStorage.getItem("userToken"));
-                    // console.log(localStorage.getItem("userDivisionName"));
-                    // console.log(localStorage.getItem("userDistrictName"));
-                    // console.log(localStorage.getItem("userUnitName"));
+                        // console.log(localStorage.getItem("userID"));
+                        // console.log(localStorage.getItem("userRole"));
+                        // console.log(localStorage.getItem("userName"));
+                        // console.log(localStorage.getItem("userEmail"));
+                        // console.log(localStorage.getItem("userDivision"));
+                        // console.log(localStorage.getItem("userDistrict"));
+                        // console.log(localStorage.getItem("userUnit"));
+                        // console.log(localStorage.getItem("userToken"));
+                        // console.log(localStorage.getItem("userDivisionName"));
+                        // console.log(localStorage.getItem("userDistrictName"));
+                        // console.log(localStorage.getItem("userUnitName"));
+                    }
                 })
                 .catch((err) => {
                     if (err.response.status === 401) {
@@ -114,7 +131,7 @@ const LoginComponent = () => {
 
                         <Form.Label>{strings.password}</Form.Label>
                         <Form.Control
-                            type="text"
+                            type="password"
                             placeholder={strings.password}
                             id="password"
                             onChange={(e) => {

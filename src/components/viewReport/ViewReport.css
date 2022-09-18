@@ -1,0 +1,65 @@
+.report-container {
+    border: 1px solid #ececec;
+    border-radius: 5px;
+    box-shadow: 3px 3px 5px 1px #ececec;
+}
+
+.report-header {
+    text-align: center;
+    /* background-color: #1976d2; */
+    color: #000;
+    margin: 0;
+    padding: 5px;
+    /* border: 1px solid #1976d2; */
+    border-radius: 5px;
+    font-size: 16px;
+    font-style: italic;
+    color: #1976d2;
+}
+
+.date-range-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    padding: 0 10px;
+    text-align: center;
+    max-width: "100px";
+}
+
+.react-datepicker__input-container input {
+    width: 100px;
+    text-align: center;
+    margin: 5px;
+}
+
+.react-datepicker-wrapper {
+    width: auto;
+    margin: 0 5px;
+}
+
+.get-report-btn {
+    padding-left: 3px !important;
+    padding-right: 3px !important;
+    margin: 5px 0;
+    padding-top: 2px !important;
+    padding-bottom: 3px !important;
+}
+
+@media (max-width: 800px) {
+    .date-range-box {
+        flex-direction: column;
+    }
+
+    .get-report-btn {
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+    }
+}
+
+@media (max-width: 425px) {
+    .get-report-btn {
+        width: 80%;
+    }
+}
